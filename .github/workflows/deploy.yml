@@ -17,7 +17,8 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          password: ${{ secrets.EC2_PASSWORD }} # <--- 이걸로 교체!
+          port: 22
           source: "."
           target: "/home/ubuntu/vms"
           debug: true  # <--- 이 줄을 추가하세요!
@@ -28,7 +29,8 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          password: ${{ secrets.EC2_PASSWORD }} # <--- 이걸로 교체!
+          port: 22
           script: |
             cd /home/ubuntu/vms
             # 가상환경 활성화 (경로가 맞는지 확인하세요)
