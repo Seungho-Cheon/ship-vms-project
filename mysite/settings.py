@@ -103,13 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # [수정] 한국 실무 환경에 맞게 변경
-
 LANGUAGE_CODE = 'ko-kr' # 한국어
-
 TIME_ZONE = 'Asia/Seoul' # 한국 시간
-
 USE_I18N = True
-
 USE_TZ = True # True로 두면 DB에는 UTC로 저장되고, 화면에는 한국 시간으로 보입니다 (권장)
 
 
