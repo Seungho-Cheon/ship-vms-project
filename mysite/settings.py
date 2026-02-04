@@ -85,7 +85,7 @@ DATABASES = {
         # 주의: MySQL Workbench에 'django'라는 이름의 스키마(데이터베이스)가 생성되어 있어야 합니다.
         'NAME': 'vms_db',  
         'USER': 'vms_user',
-        'PASSWORD': 'saein#09437',
+        'PASSWORD': 'test1234',
         'HOST': 'localhost',
         'PORT': '3306', # 포트번호 3307이 맞는지 꼭 확인하세요 (기본값은 3306입니다)
     }
