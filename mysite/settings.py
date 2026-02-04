@@ -18,6 +18,7 @@ DEBUG = True
 # 수정: 실제 도메인과 IP를 명시 (보안 강화)
 ALLOWED_HOSTS = [
     'vms.jongroinf.com',  # 연결할 도메인
+    '15.164.251.186',
     'localhost',
     '127.0.0.1',
     # 필요하다면 EC2 IP도 추가
