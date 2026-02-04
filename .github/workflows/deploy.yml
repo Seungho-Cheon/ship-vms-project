@@ -1,0 +1,46 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 1. 파일 복사
+      - name: Copy files via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "."
+          target: "/home/ubuntu/vms"
+          debug: true  # <--- 이 줄을 추가하세요!
+
+      # 2. 서버 명령어 실행 (패키지 설치 및 마이그레이션)
+      - name: Execute remote commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/vms
+            # 가상환경 활성화 (경로가 맞는지 확인하세요)
+            source venv/bin/activate
+            
+            # 라이브러리 설치
+            pip install -r requirements.txt
+            
+            # DB 변경사항 적용
+            python3 manage.py migrate
+            
+            # (중요) 기존 실행 중인 runserver가 있다면 종료하고 재실행
+            # 주의: 실제 운영 환경에서는 Gunicorn 사용을 권장하지만, 지금은 runserver 기준으로 작성합니다.
+            pkill -f runserver || true
+            nohup python3 manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
